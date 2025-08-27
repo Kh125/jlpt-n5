@@ -216,6 +216,17 @@
         const prevButton = document.getElementById('prev-button');
         const nextButton = document.getElementById('next-button');
 
+        // Fisher-Yates shuffle algorithm
+        function shuffle(array) {
+            let currentIndex = array.length, randomIndex;
+            while (currentIndex != 0) {
+                randomIndex = Math.floor(Math.random() * currentIndex);
+                currentIndex--;
+                [array[currentIndex], array[randomIndex]] = [array[randomIndex], array[currentIndex]];
+            }
+            return array;
+        }
+
         // Function to update the card content
         const updateCard = () => {
             if (displayedCards.length > 0) {
@@ -235,9 +246,10 @@
             }
         };
 
-        // Function to filter cards and update the display
+        // Function to filter cards, shuffle them, and update the display
         const filterAndDisplayCards = () => {
-            displayedCards = flashcardData.filter(card => card.chapter === selectedChapter);
+            const filteredCards = flashcardData.filter(card => card.chapter === selectedChapter);
+            displayedCards = shuffle(filteredCards);
             currentCardIndex = 0;
             isFlipped = false;
             flashcardContainer.classList.remove('is-flipped');
